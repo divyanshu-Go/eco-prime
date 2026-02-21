@@ -9,3 +9,16 @@ frontend/node_modules/
 ethereum/node_modules/
 frontend/package-lock.json
 ethereum/package-lock.json
+
+# dependencies
+node_modules/
+
+# environment
+.env
+
+# build
+dist/
+build/
+
+# logs
+npm-debug.log*

@@ -1,5 +1,6 @@
 /**
  * Build Middleman JSON metadata
+ * models/middlemanModel.js
  */
 export function createMiddlemanData({ batchRef, from, to, transferCid, storageCid, transportCid, finalWeight }) {
   return {

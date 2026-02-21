@@ -1,4 +1,4 @@
-// src/web3.js
+// frontend/src/web3.js
 import Web3 from "web3";
 import { CONTRACTS } from "./contract";
 

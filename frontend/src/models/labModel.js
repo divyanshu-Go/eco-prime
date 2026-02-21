@@ -1,6 +1,4 @@
-/**
- * Build Lab JSON metadata
- */
+// frontend/src/models/labModel.js
 export function createLabData({ labId, batchRef, moisturePercent, pesticideCid, heavyCid, dnaCid, pdfCid, pass }) {
   return {
     type: "lab",

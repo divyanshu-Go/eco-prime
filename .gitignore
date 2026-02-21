@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Package locks (optional)
+package-lock.json
+
+# If you want folder specific (not necessary if above exists)
+frontend/node_modules/
+ethereum/node_modules/
+frontend/package-lock.json
+ethereum/package-lock.json

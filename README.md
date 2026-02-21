@@ -4,10 +4,7 @@ A blockchain + IPFS proof-of-concept demonstrating immutable,
 role-based traceability across a multi-party herbal supply chain.
 
 ## Overview
-[2–3 sentence project description from Section 1 above]
-
-## Architecture
-[Diagram from Section 2]
+Simplest Demo of smart contract working with web3.js and using Ipfs for storage.
 
 ## Tech Stack
 - Solidity ^0.8.30 (smart contracts)

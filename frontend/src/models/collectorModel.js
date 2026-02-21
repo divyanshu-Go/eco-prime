@@ -1,5 +1,16 @@
 // src/models/collectorModel.js
-export function createCollectorData({ account, batchRef, species, qty, lat, lon, age, moisture, photoCid, notes }) {
+export function createCollectorData({
+  account,
+  batchRef,
+  species,
+  qty,
+  lat,
+  lon,
+  age,
+  moisture,
+  photoCid,
+  notes,
+}) {
   return {
     type: "collector",
     batchRef,
@@ -10,7 +21,8 @@ export function createCollectorData({ account, batchRef, species, qty, lat, lon,
     harvestTimestamp: Math.floor(Date.now() / 1000),
     rootAgeYears: age,
     moisturePercent: moisture,
-    photo: photoCid,
+    // ipfs:// prefix ensures BatchViewer renders this as an image link
+    photo: photoCid ? `ipfs://${photoCid}` : null,
     notes,
   };
 }

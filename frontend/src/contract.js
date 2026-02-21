@@ -13,6 +13,3 @@ export const CONTRACTS = {
     address: deployed.HerbDataCID,
   },
 };
-
-
-console.log(CONTRACTS);

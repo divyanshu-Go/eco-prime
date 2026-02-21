@@ -1,3 +1,5 @@
+
+// frontend/src/components/RegisterWorker.jsx
 import React, { useState } from "react";
 import { connectWalletAndContracts, sendTx, callView } from "../web3";
 

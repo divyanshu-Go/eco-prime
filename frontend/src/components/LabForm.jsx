@@ -1,9 +1,11 @@
+// frontend/src/components/LabForm.jsx
 import React, { useState } from "react";
 import { connectWalletAndContracts, sendTx } from "../web3";
 import { uploadFileToIPFS, uploadJsonToIPFS } from "../ipfs";
 import { createLabData } from "../models/labModel";
 
 export default function LabForm() {
+  const [batchId, setBatchId] = useState("");
   const [batchRef, setBatchRef] = useState("");
   const [labId, setLabId] = useState("");
   const [moisturePercent, setMoisturePercent] = useState("");
@@ -24,10 +26,7 @@ export default function LabForm() {
       setTxStatus("🔗 Connecting wallet...");
       const { account, contracts } = await connectWalletAndContracts();
 
-      let pesticideCid = null,
-        heavyCid = null,
-        dnaCid = null,
-        pdfCid = null;
+      let pesticideCid = null, heavyCid = null, dnaCid = null, pdfCid = null;
 
       if (pesticideFile) {
         setTxStatus("📤 Uploading pesticide report...");
@@ -46,7 +45,6 @@ export default function LabForm() {
         pdfCid = await uploadFileToIPFS(reportPdf);
       }
 
-      // Build metadata JSON
       const metadata = createLabData({
         labId,
         batchRef,
@@ -62,11 +60,12 @@ export default function LabForm() {
       const metadataCid = await uploadJsonToIPFS(metadata);
 
       setTxStatus("🚀 Sending transaction...");
+      // Contract takes uint256 batchId
       const receipt = await sendTx(
         contracts.herb,
         "addLabData",
         account,
-        batchRef,
+        batchId,
         metadataCid
       );
 
@@ -83,17 +82,32 @@ export default function LabForm() {
     <div className="max-w-xl mx-auto p-4 bg-white shadow rounded">
       <h2 className="text-xl font-bold mb-4">Lab Form</h2>
       <form onSubmit={handleSubmit} className="space-y-3">
+
+        {/* Numeric batch ID */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Batch ID <span className="text-blue-600">(number from Step 1)</span>
+          </label>
+          <input
+            type="number"
+            placeholder="e.g. 1"
+            value={batchId}
+            onChange={(e) => setBatchId(e.target.value)}
+            required
+            className="input"
+          />
+        </div>
+
         <input
           type="text"
-          placeholder="Batch Reference"
+          placeholder="Batch Reference (for your records)"
           value={batchRef}
           onChange={(e) => setBatchRef(e.target.value)}
-          required
           className="input"
         />
         <input
           type="text"
-          placeholder="Lab ID"
+          placeholder="Lab ID (e.g. LAB-001)"
           value={labId}
           onChange={(e) => setLabId(e.target.value)}
           required
@@ -102,7 +116,7 @@ export default function LabForm() {
         <input
           type="number"
           step="0.1"
-          placeholder="Moisture %"
+          placeholder="Moisture % (measured by lab)"
           value={moisturePercent}
           onChange={(e) => setMoisturePercent(e.target.value)}
           required
@@ -110,7 +124,7 @@ export default function LabForm() {
         />
 
         <div>
-          <label className="block mb-1">Pass / Fail:</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Quality Result:</label>
           <select
             value={pass}
             onChange={(e) => setPass(e.target.value === "true")}
@@ -121,37 +135,21 @@ export default function LabForm() {
           </select>
         </div>
 
-        <label className="block">
-          Pesticide Report:
-          <input
-            type="file"
-            onChange={(e) => setPesticideFile(e.target.files[0])}
-            className="input mt-1"
-          />
+        <label className="block text-sm text-gray-600">
+          Pesticide Report (optional):
+          <input type="file" onChange={(e) => setPesticideFile(e.target.files[0])} className="input mt-1" />
         </label>
-        <label className="block">
-          Heavy Metals Report:
-          <input
-            type="file"
-            onChange={(e) => setHeavyMetalsFile(e.target.files[0])}
-            className="input mt-1"
-          />
+        <label className="block text-sm text-gray-600">
+          Heavy Metals Report (optional):
+          <input type="file" onChange={(e) => setHeavyMetalsFile(e.target.files[0])} className="input mt-1" />
         </label>
-        <label className="block">
-          DNA Barcode File:
-          <input
-            type="file"
-            onChange={(e) => setDnaFile(e.target.files[0])}
-            className="input mt-1"
-          />
+        <label className="block text-sm text-gray-600">
+          DNA Barcode File (optional):
+          <input type="file" onChange={(e) => setDnaFile(e.target.files[0])} className="input mt-1" />
         </label>
-        <label className="block">
-          Lab Report PDF:
-          <input
-            type="file"
-            onChange={(e) => setReportPdf(e.target.files[0])}
-            className="input mt-1"
-          />
+        <label className="block text-sm text-gray-600">
+          Lab Report PDF (optional):
+          <input type="file" onChange={(e) => setReportPdf(e.target.files[0])} className="input mt-1" />
         </label>
 
         <button
@@ -162,7 +160,7 @@ export default function LabForm() {
           {loading ? "Processing..." : "Add Lab Data"}
         </button>
       </form>
-      {txStatus && <p className="mt-3">{txStatus}</p>}
+      {txStatus && <p className="mt-3 text-sm break-all">{txStatus}</p>}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 /**
+ * frontend/src/models/manufacturerModel.js
  * Build Manufacturer JSON metadata
  */
 export function createManufacturerData({

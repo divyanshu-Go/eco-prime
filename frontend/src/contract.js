@@ -1,7 +1,7 @@
-// src/contract.js
-import RegisteredWorker from "../../ethereum/build/RegisteredWorker.json";
-import HerbDataCID from "../../ethereum/build/HerbDataCID.json";
-import deployed from "../../ethereum/deployed.json";
+// frontend/src/contract.js
+import RegisteredWorker from "./abi/RegisteredWorker.json";
+import HerbDataCID from "./abi/HerbDataCID.json";
+import deployed from "./deployed.json";
 
 export const CONTRACTS = {
   RegisteredWorker: {

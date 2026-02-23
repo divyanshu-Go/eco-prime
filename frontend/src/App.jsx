@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import './App.css';
 import { PAGES } from "./pages/routes";
 import Sidebar from "./components/layout/Sidebar";
+import Footer from "./components/layout/Footer";
 import Dashboard from "./pages/Dashboard";
 import AdminPage from "./pages/AdminPage";
 import CollectorPage from "./pages/CollectorPage";
@@ -30,9 +31,12 @@ function App() {
   return (
     <div className="app-shell">
       <Sidebar activePage={activePage} onNavigate={setActivePage} />
-      <main className="main-content">
-        {renderPage()}
-      </main>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <main className="main-content" style={{ flex: 1 }}>
+          {renderPage()}
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
